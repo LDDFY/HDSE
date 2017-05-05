@@ -8,7 +8,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -26,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by LDDFY on 2017/4/24.
+ * @author LDDFY
  */
 @Repository
 public class IndexSearch {
@@ -35,20 +34,13 @@ public class IndexSearch {
 
     private IndexSearcher searcher;
 
-    //带参数构造方法
-    /*public IndexSearch(FsDirectory dir) throws CorruptIndexException, IOException {
-        reader = IndexReader.open(dir);
-        searcher = new IndexSearcher(reader);
-    }*/
-
-    //默认构造方法
     public IndexSearch(){
         try {
             System.setProperty("hadoop.home.dir", Constants.HADOOP_HOME_DIR);
             Configuration conf = new Configuration();
             conf.set("fs.defaultFS", Constants.FS_DEFAULTFS);
             FileSystem fs = FileSystem.get(conf);
-            FsDirectory dir = new FsDirectory(fs, new Path(Constants.FS_DEFAULTFS + "/user/luceneIndex/"), false, conf);
+            FsDirectory dir = new FsDirectory(fs, new Path(Constants.INDEX_DRI), false, conf);
             reader = IndexReader.open(dir);
             searcher = new IndexSearcher(reader);
         } catch (Exception e) {
@@ -109,10 +101,8 @@ public class IndexSearch {
      * @param entity
      * @param page
      * @return
-     * @throws CorruptIndexException
-     * @throws IOException
      */
-    public Document search(SearchEntity entity, Pager page) throws CorruptIndexException, IOException {
+    public Document search(SearchEntity entity, Pager page) {
         Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_34);
         QueryParser queryParser = new QueryParser(Version.LUCENE_34, Constants.getSearchCodeMap(entity.getType()), analyzer);
         Document doc = null;
@@ -127,8 +117,6 @@ public class IndexSearch {
         }
         return doc;
     }
-
-
 
     public void close() throws IOException {
         // 关闭对象

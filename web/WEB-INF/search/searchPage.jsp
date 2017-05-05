@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page isELIgnored="false" %>
 <%
     String path = request.getContextPath();
@@ -46,8 +47,9 @@
                 <div style="margin-right: 2px; float: left;height:36px;">
                     <select id="type" name="type" class="type_search">
                         <c:if test="${code!=null}">
-                            <c:forEach items="${code}" var="code" >
-                                <option value="${code.key}" <c:if test="${searchCode.type eq code.key}"> selected</c:if> >${code.value}</option>
+                            <c:forEach items="${code}" var="code">
+                                <option value="${code.key}" <c:if
+                                        test="${searchCode.type eq code.key}"> selected</c:if> >${code.value}</option>
                             </c:forEach>
                         </c:if>
                     </select>
@@ -70,12 +72,35 @@
         <div id="main" style="width: auto;">
             <ul class="result">
                 <c:if test="${pager.dataList !=null}">
-                    <c:forEach  items="${pager.dataList}" var="data">
+                    <c:forEach items="${pager.dataList}" var="data">
                         <li class="res-list" data-lazyload="1">
                             <h3 class="res-title ">
-                                <a href="#" rel="noopener" data-res="#" target="_blank"> </a>
+                                <a href="/detial.do?id=${data.id}" rel="noopener"  target="_blank"
+                                   style="width:250px; display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                    ${data.text}
+                                </a>
                             </h3>
-                            <p class="res-desc">${data.text}</p>
+
+                                <ul class="detail">
+                                    <li class="item">
+                                        <label class="gray">作者：</label>
+                                        <span>${data.userInfo.name}</span>
+                                    </li>
+
+                                    <li class="item">
+                                        <label class="gray">评论量：</label>
+                                        <span>${data.commentsCount}</span>
+                                    </li>
+                                    <li class="item">
+                                        <label class="gray">发布地：</label>
+                                        <span>${data.location}</span>
+                                    </li>
+                                    <li class="item">
+                                        <label class="gray">时间：</label>
+                                        <span>${data.date}</span>
+                                    </li>
+                                </ul>
+                            <p class="res-desc">博文${data.text}</p>
                             <p class="res-linkinfo">
                                 <cite>www.<b>xx</b>zhushou.cn</cite>-
                                 <a href="#" target="_blank" class="m">快照</a>
@@ -102,6 +127,7 @@
         }
     </style>
 </div>
+
 <div id="page">
     <c:if test="${pager.prev==true}">
         <a id="spre" href="/search.do?type=${searchCode.type}&key=${searchCode.key}&currentPage=${pager.currentPage-1}">上一页</a>
@@ -117,7 +143,8 @@
         </c:choose>
     </c:forEach>
     <c:if test="${pager.next==true}">
-        <a id="snext" href="/search.do?type=${searchCode.type}&key=${searchCode.key}&currentPage=${pager.currentPage+1}">下一页</a>
+        <a id="snext"
+           href="/search.do?type=${searchCode.type}&key=${searchCode.key}&currentPage=${pager.currentPage+1}">下一页</a>
     </c:if>
     <span class="nums" style="margin-left:20px">找到相关结果约${pager.totalRecord}个</span>
 </div>

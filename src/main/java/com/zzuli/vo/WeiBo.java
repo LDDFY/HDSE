@@ -5,9 +5,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
- *@author LDDFY
+ * @author LDDFY
  */
 @Document
 public class WeiBo implements Serializable {
@@ -30,7 +31,7 @@ public class WeiBo implements Serializable {
     private String text;
 
     @Field("comments")
-    private String comments;
+    private List<String> comments;
 
     @Field("likes_count")
     private String likesCount;
@@ -38,10 +39,10 @@ public class WeiBo implements Serializable {
     @Field("userinfo")
     private User userInfo;
 
-    public WeiBo(){
+    public WeiBo() {
     }
 
-    public WeiBo(String id, String repostsCount, String commentsCount, String location, String date, String text, String comments, String likesCount, User userInfo) {
+    public WeiBo(String id, String repostsCount, String commentsCount, String location, String date, String text, List<String> comments, String likesCount, User userInfo) {
         this.id = id;
         this.repostsCount = repostsCount;
         this.commentsCount = commentsCount;
@@ -52,6 +53,7 @@ public class WeiBo implements Serializable {
         this.likesCount = likesCount;
         this.userInfo = userInfo;
     }
+
 
     public String getId() {
         return id;
@@ -101,11 +103,11 @@ public class WeiBo implements Serializable {
         this.text = text;
     }
 
-    public String getComments() {
+    public List<String> getComments() {
         return comments;
     }
 
-    public void setComments(String comments) {
+    public void setComments(List<String> comments) {
         this.comments = comments;
     }
 
@@ -134,9 +136,9 @@ public class WeiBo implements Serializable {
                 ", location='" + location + '\'' +
                 ", date='" + date + '\'' +
                 ", text='" + text + '\'' +
-                ", comments='" + comments + '\'' +
                 ", likesCount='" + likesCount + '\'' +
                 ", userInfo=" + userInfo +
+                ", comments='" + comments + '\'' +
                 '}';
     }
 }

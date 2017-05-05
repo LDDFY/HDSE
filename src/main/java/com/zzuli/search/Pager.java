@@ -59,7 +59,6 @@ public class Pager<T> implements Serializable {
             this.pageIndex.add(i);
         }
         this.dataList = sourceList;
-        System.out.println("totalPage:" + this.totalPage + " pageFromIndex:" + pageFromIndex + " pageToIndex:" + pageToIndex);
     }
 
     public List<Integer> getPageIndex() {

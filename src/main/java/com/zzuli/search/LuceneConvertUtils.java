@@ -2,7 +2,6 @@ package com.zzuli.search;
 
 import com.zzuli.vo.User;
 import com.zzuli.vo.WeiBo;
-import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -11,10 +10,12 @@ import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.util.Version;
 
 import java.io.StringReader;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- *@author LDDFY
- *lucene 文档与实体之间的转换
+ * @author LDDFY
+ *         lucene 文档与实体之间的转换
  */
 public class LuceneConvertUtils {
 
@@ -73,7 +74,9 @@ public class LuceneConvertUtils {
 
             String comments = doc.get("comments");
             if (StringUtils.isNotBlank(comments)) {
-                weiBo.setComments(getHightLightStr(highlight, "comments", comments));
+                //未做高亮标记
+                List<String> commentsArray= Arrays.asList(comments);
+                weiBo.setComments(commentsArray);
             }
 
             String likesCount = doc.get("likes_count");
@@ -81,25 +84,24 @@ public class LuceneConvertUtils {
                 weiBo.setLikesCount(getHightLightStr(highlight, "likes_count", likesCount));
             }
 
-            String userInfo = doc.get("userinfo");
-            if (StringUtils.isNotBlank(userInfo)) {
-                JSONObject object = JSONObject.fromObject(userInfo);
-                String gender = object.getString("gender");
-                if (StringUtils.isNotBlank(gender)) {
-                    user.setGender(getHightLightStr(highlight, "gender", gender));
-                }
-                String region = object.getString("region");
-                if (StringUtils.isNotBlank(region)) {
-                    user.setRegion(getHightLightStr(highlight, "region", region));
-                }
-                String name = object.getString("name");
-                if (StringUtils.isNotBlank(name)) {
-                    user.setName(getHightLightStr(highlight, "name", name));
-                }
-                String birthdate = object.getString("birthdate");
-                if (StringUtils.isNotBlank(birthdate)) {
-                    user.setBirthDate(getHightLightStr(highlight, "birthdate", birthdate));
-                }
+            String gender = doc.get("gender");
+            if (StringUtils.isNotBlank(gender)) {
+                user.setGender(getHightLightStr(highlight, "gender", gender));
+            }
+
+            String region = doc.get("region");
+            if (StringUtils.isNotBlank(region)) {
+                user.setRegion(getHightLightStr(highlight, "region", region));
+            }
+
+            String name = doc.get("name");
+            if (StringUtils.isNotBlank(name)) {
+                user.setName(getHightLightStr(highlight, "name", name));
+            }
+
+            String birthdate = doc.get("birthdate");
+            if (StringUtils.isNotBlank(birthdate)) {
+                user.setBirthDate(getHightLightStr(highlight, "birthdate", birthdate));
             }
         } catch (Exception e) {
             e.printStackTrace();

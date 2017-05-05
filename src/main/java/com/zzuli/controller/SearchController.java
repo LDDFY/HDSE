@@ -49,6 +49,7 @@ public class SearchController {
     public ModelAndView detial(String id){
         ModelAndView mv = new ModelAndView("search/detial");
         WeiBo weiBo=searchService.getEntityById("id",id,"data");
+        System.out.println(weiBo.toString());
         mv.addObject("data",weiBo);
         return mv;
     }
