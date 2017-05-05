@@ -4,25 +4,17 @@ package com.zzuli.search;
  * Created by LDDFY on 2017/5/4.
  */
 public class SearchEntity {
+    //搜索项
     private String type;
+    //搜索关键词
     private String key;
-    private Integer currentPage;
     public SearchEntity( ) {
 
     }
 
-    public SearchEntity(String type, String key, Integer currentPage) {
+    public SearchEntity(String type, String key) {
         this.type = type;
         this.key = key;
-        this.currentPage = currentPage;
-    }
-
-    public Integer getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(Integer currentPage) {
-        this.currentPage = currentPage;
     }
 
     public String getType() {
@@ -41,11 +33,4 @@ public class SearchEntity {
         this.key = key;
     }
 
-    @Override
-    public String toString() {
-        return "SearchEntity{" +
-                "type=" + type +
-                ", key='" + key + '\'' +
-                '}';
-    }
 }

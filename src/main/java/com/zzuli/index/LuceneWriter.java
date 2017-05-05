@@ -7,7 +7,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.lucene.analysis.LimitTokenCountAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.LogDocMergePolicy;
@@ -62,11 +61,8 @@ public class LuceneWriter implements Serializable {
     }
 
     public void write(LuceneDocument doc) throws IOException {
-        Document luceneDoc = new Document();
         Map fields = doc.getFile();
-        for (Object key : fields.keySet()) {
-            luceneDoc.add(new Field(key.toString(), fields.get(key).toString(), Field.Store.YES, Field.Index.ANALYZED));
-        }
+        Document luceneDoc = DocConvertUtil.mapToDoc(fields);
         writer.addDocument(luceneDoc);
     }
 }

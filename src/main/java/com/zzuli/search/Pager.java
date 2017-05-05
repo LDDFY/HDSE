@@ -48,14 +48,18 @@ public class Pager<T> implements Serializable {
         int pageFromIndex = (this.currentPage - Constants.PAGE_NUMBER) > 0 ? (this.currentPage - Constants.PAGE_NUMBER) : 1;
 
         //结束页码
-        int pageToIndex = (this.currentPage + Constants.PAGE_NUMBER) > totalPage ? (totalPage - currentPage) : (this.currentPage + Constants.PAGE_NUMBER);
+        int pageToIndex = (this.currentPage + Constants.PAGE_NUMBER) > totalPage ? totalPage : (this.currentPage + Constants.PAGE_NUMBER);
 
+        if (pageToIndex - pageFromIndex < 2 * Constants.PAGE_NUMBER) {
+            pageToIndex = 2 * Constants.PAGE_NUMBER > totalPage ? totalPage : 2 * Constants.PAGE_NUMBER;
+        }
         //页码下标
-        this.pageIndex=new ArrayList<Integer>();
-        for (int i = pageFromIndex; i < pageToIndex; i++) {
-           this.pageIndex.add(i);
+        this.pageIndex = new ArrayList<Integer>();
+        for (int i = pageFromIndex; i <= pageToIndex; i++) {
+            this.pageIndex.add(i);
         }
         this.dataList = sourceList;
+        System.out.println("totalPage:" + this.totalPage + " pageFromIndex:" + pageFromIndex + " pageToIndex:" + pageToIndex);
     }
 
     public List<Integer> getPageIndex() {
