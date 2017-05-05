@@ -25,6 +25,7 @@ public class BaseDaoImp<T> implements BaseDao {
         clazz = (Class<T>) type.getActualTypeArguments()[0];
     }
 
+
     @Override
     public T queryOne(String key, String value, String collection) {
         return mongoOperations.findOne(new Query(Criteria.where(key).is(value)), clazz, collection);

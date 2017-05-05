@@ -1,0 +1,16 @@
+.type_search {
+    height: 36px;
+    border: 0;
+    background: transparent;
+}
+.type_search option{
+    font-size:12px;
+}
+.type_index {
+    height: 44px;
+    border: 0;
+    background: transparent;
+}
+.type_index option{
+    font-size:16px;
+}

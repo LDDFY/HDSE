@@ -11,65 +11,64 @@ import java.io.Serializable;
 @Document
 public class User implements Serializable {
 
-    @Field("username")
-    private String userName;
-    @Field("usersex")
-    private String userSex;
-    @Field("userregion")
-    private String userRegion;
-    @Field("userbri")
-    private String userBri;
+    @Field("name")
+    private String name;
+    @Field("gender")
+    private String gender;
+    @Field("region")
+    private String region;
+    @Field("birthdate")
+    private String birthDate;
 
     public User() {
 
     }
-
-    public User(String userName, String userSex, String userRegion, String userBri) {
-        this.userName = userName;
-        this.userSex = userSex;
-        this.userRegion = userRegion;
-        this.userBri = userBri;
+    public User(String name, String gender, String region, String birthDate) {
+        this.name = name;
+        this.gender = gender;
+        this.region = region;
+        this.birthDate = birthDate;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUserSex() {
-        return userSex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setUserSex(String userSex) {
-        this.userSex = userSex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public String getUserRegion() {
-        return userRegion;
+    public String getRegion() {
+        return region;
     }
 
-    public void setUserRegion(String userRegion) {
-        this.userRegion = userRegion;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
-    public String getUserBri() {
-        return userBri;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setUserBri(String userBri) {
-        this.userBri = userBri;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userName='" + userName + '\'' +
-                ", userSex='" + userSex + '\'' +
-                ", userRegion='" + userRegion + '\'' +
-                ", userBri='" + userBri + '\'' +
+                "name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", region='" + region + '\'' +
+                ", birthDate='" + birthDate + '\'' +
                 '}';
     }
 }

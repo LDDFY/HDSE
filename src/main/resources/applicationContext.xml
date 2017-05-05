@@ -46,5 +46,6 @@
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
         <constructor-arg name="mongoConverter" ref="mappingMongoConverter"/>
     </bean>
-
+    <!-- 注解扫描包 -->
+    <context:component-scan base-package="com.zzuli" />
 </beans>

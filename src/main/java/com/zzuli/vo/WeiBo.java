@@ -14,17 +14,43 @@ public class WeiBo implements Serializable {
     @Id
     private String id;
 
-    @Field("cotent")
-    private String cotent;
+    @Field("reposts_count")
+    private String repostsCount;
 
-    @Field("time")
-    private String time;
+    @Field("comments_count")
+    private String commentsCount;
+
+    @Field("location")
+    private String location;
+
+    @Field("date")
+    private String date;
+
+    @Field("text")
+    private String text;
+
+    @Field("comments")
+    private String comments;
+
+    @Field("likes_count")
+    private String likesCount;
 
     @Field("userinfo")
     private User userInfo;
 
     public WeiBo(){
+    }
 
+    public WeiBo(String id, String repostsCount, String commentsCount, String location, String date, String text, String comments, String likesCount, User userInfo) {
+        this.id = id;
+        this.repostsCount = repostsCount;
+        this.commentsCount = commentsCount;
+        this.location = location;
+        this.date = date;
+        this.text = text;
+        this.comments = comments;
+        this.likesCount = likesCount;
+        this.userInfo = userInfo;
     }
 
     public String getId() {
@@ -35,26 +61,65 @@ public class WeiBo implements Serializable {
         this.id = id;
     }
 
-    public String getCotent() {
-        return cotent;
+    public String getRepostsCount() {
+        return repostsCount;
     }
 
-    public void setCotent(String cotent) {
-        this.cotent = cotent;
+    public void setRepostsCount(String repostsCount) {
+        this.repostsCount = repostsCount;
     }
 
-    public String getTime() {
-        return time;
+    public String getCommentsCount() {
+        return commentsCount;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setCommentsCount(String commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public String getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(String likesCount) {
+        this.likesCount = likesCount;
     }
 
     public User getUserInfo() {
         return userInfo;
     }
-
 
     public void setUserInfo(User userInfo) {
         this.userInfo = userInfo;
@@ -64,8 +129,13 @@ public class WeiBo implements Serializable {
     public String toString() {
         return "WeiBo{" +
                 "id='" + id + '\'' +
-                ", cotent='" + cotent + '\'' +
-                ", time='" + time + '\'' +
+                ", repostsCount='" + repostsCount + '\'' +
+                ", commentsCount='" + commentsCount + '\'' +
+                ", location='" + location + '\'' +
+                ", date='" + date + '\'' +
+                ", text='" + text + '\'' +
+                ", comments='" + comments + '\'' +
+                ", likesCount='" + likesCount + '\'' +
                 ", userInfo=" + userInfo +
                 '}';
     }
