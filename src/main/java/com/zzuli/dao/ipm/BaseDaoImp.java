@@ -25,7 +25,13 @@ public class BaseDaoImp<T> implements BaseDao {
         clazz = (Class<T>) type.getActualTypeArguments()[0];
     }
 
-
+    /**
+     * mongoDB单条内容查询
+     * @param key 查询字段
+     * @param value 查询内容
+     * @param collection 查询集合
+     * @return
+     */
     @Override
     public T queryOne(String key, String value, String collection) {
         return mongoOperations.findOne(new Query(Criteria.where(key).is(value)), clazz, collection);
