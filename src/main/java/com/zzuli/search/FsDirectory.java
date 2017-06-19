@@ -20,11 +20,9 @@ public class FsDirectory extends Directory {
 
     public FsDirectory(FileSystem fs, Path directory, boolean create, Configuration conf)
             throws IOException {
-
         this.fs = fs;
         this.directory = directory;
-        this.ioFileBufferSize = conf.getInt("io.file.buffer.size", 4096);
-
+        this.ioFileBufferSize = conf.getInt("io.file.buffer.size", 8192);
         if (create) {
             create();
         }
@@ -42,7 +40,6 @@ public class FsDirectory extends Directory {
             throw new IOException(directory + " not a directory");
         }
 
-        // clear old files
         FileStatus[] fstats = fs.listStatus(directory, getPassAllFilter());
         Path[] files = getPaths(fstats);
         for (int i = 0; i < files.length; i++) {
@@ -85,8 +82,6 @@ public class FsDirectory extends Directory {
     }
 
     public void renameFile(String from, String to) throws IOException {
-        // DFS is currently broken when target already exists,
-        // so we explicitly delete the target first.
         Path target = new Path(directory, to);
         if (fs.exists(target)) {
             fs.delete(target, false);
@@ -96,7 +91,7 @@ public class FsDirectory extends Directory {
 
     public IndexOutput createOutput(String name) throws IOException {
         Path file = new Path(directory, name);
-        if (fs.exists(file) && !fs.delete(file, false))      // delete existing, if any
+        if (fs.exists(file) && !fs.delete(file, false))
             throw new IOException("Cannot overwrite: " + file);
 
         return new DfsIndexOutput(file, this.ioFileBufferSize);
@@ -184,14 +179,14 @@ public class FsDirectory extends Directory {
         }
 
         protected void seekInternal(long position) {
-        } // handled in readInternal()
+        }
 
         public long length() {
             return length;
         }
 
         protected void finalize() throws IOException {
-            close();                                      // close the file
+            close();
         }
 
         public Object clone() {
@@ -205,10 +200,7 @@ public class FsDirectory extends Directory {
         private FSDataOutputStream out;
         private RandomAccessFile local;
         private File localFile;
-
         public DfsIndexOutput(Path path, int ioFileBufferSize) throws IOException {
-
-            // create a temporary local file and set it to delete on exit
             String randStr = Integer.toString(new Random().nextInt(Integer.MAX_VALUE));
             localFile = File.createTempFile("index_" + randStr, ".tmp");
             localFile.deleteOnExit();
@@ -223,8 +215,6 @@ public class FsDirectory extends Directory {
 
         public void close() throws IOException {
             super.close();
-
-            // transfer to dfs from local
             byte[] buffer = new byte[4096];
             local.seek(0);
             int read = -1;

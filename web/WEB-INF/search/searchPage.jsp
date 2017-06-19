@@ -43,7 +43,7 @@
         </div>
 
         <div id="head">
-            <form name="f2" class="form" action="/search.do" method="get">
+            <form name="f2" class="form" action="<%=basePath%>search.do" method="get">
                 <div style="margin-right: 2px; float: left;height:36px;">
                     <select id="type" name="type" class="type_search">
                         <c:if test="${code!=null}">
@@ -75,7 +75,7 @@
                     <c:forEach items="${pager.dataList}" var="data">
                         <li class="res-list" data-lazyload="1">
                             <h3 class="res-title ">
-                                <a href="/detial.do?id=${data.id}" rel="noopener"  target="_blank"
+                                <a href="<%=basePath%>detial.do?id=${data.id}" rel="noopener"  target="_blank"
                                    style="width:250px; display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
                                     ${data.text}
                                 </a>
@@ -130,7 +130,7 @@
 
 <div id="page">
     <c:if test="${pager.prev==true}">
-        <a id="spre" href="/search.do?type=${searchCode.type}&key=${searchCode.key}&currentPage=${pager.currentPage-1}">上一页</a>
+        <a id="spre" href="<%=basePath%>search.do?type=${searchCode.type}&key=${searchCode.key}&currentPage=${pager.currentPage-1}">上一页</a>
     </c:if>
     <c:forEach items="${pager.pageIndex}" var="index">
         <c:choose>
@@ -138,13 +138,13 @@
                 <strong>${index}</strong>
             </c:when>
             <c:otherwise>
-                <a href="/search.do?type=${searchCode.type}&key=${searchCode.key}&currentPage=${index}">${index}</a>
+                <a href="<%=basePath%>search.do?type=${searchCode.type}&key=${searchCode.key}&currentPage=${index}">${index}</a>
             </c:otherwise>
         </c:choose>
     </c:forEach>
     <c:if test="${pager.next==true}">
         <a id="snext"
-           href="/search.do?type=${searchCode.type}&key=${searchCode.key}&currentPage=${pager.currentPage+1}">下一页</a>
+           href="<%=basePath%>search.do?type=${searchCode.type}&key=${searchCode.key}&currentPage=${pager.currentPage+1}">下一页</a>
     </c:if>
     <span class="nums" style="margin-left:20px">找到相关结果约${pager.totalRecord}个</span>
 </div>

@@ -82,8 +82,8 @@
     <div class="cl"></div>
 </article>
 <footer class="top-level">
-    MD5decoder.org © 2012-2017
-    <a rel="nofollow" target="_blank" href="http://milejko.com/">milejko.com</a>
+    xxxxxx.org © 2012-2017
+    <a rel="nofollow" target="_blank" href="#">xxxx.com</a>
 </footer>
 <div id="policy-window">
     <span>X</span>

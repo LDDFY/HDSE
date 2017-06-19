@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" %>
 <%
@@ -14,8 +14,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>搜索</title>
-    <link rel="stylesheet" href="<%=basePath%>css/search.css" />
+    <link rel="stylesheet" href="<%=basePath%>css/search.css"/>
     <jsp:include page="../../static/static.jsp"/>
+    <script type="text/javascript" charset="utf-8">
+        function createIndex() {
+            alert("任务将要执行！");
+            $.post("<%=basePath%>/createIndex.do", "{}", function (data) {
+                alert(data);
+            })
+        }
+    </script>
 </head>
 <body class="">
 <div id="skin_bg" style="background-color:#fff"></div>
@@ -24,21 +32,23 @@
         <nav id="hd_nav">
             <ul class="skin-text skin-text-top">
                 <li class="login">
-                    <a href="#" id="user-login" data-linkid="login" style="padding-right: 10px;">登录</a>
+                    <a href="#" onclick="javascript:createIndex()" id="user-login" data-linkid="login"
+                       style="padding-right: 10px;">登录</a>
                 </li>
             </ul>
         </nav>
     </header>
     <div id="main">
         <section id="bd_logo" class="anime">
-            <a href="javascript:void(0);" class="skin-logo pngfix" data-linkid="logo" style="cursor:default" title="" data-title="" data-style="cursor:default" data-href="javascript:;" target="_blank"></a>
+            <a href="javascript:void(0);" class="skin-logo pngfix" data-linkid="logo" style="cursor:default" title=""
+               data-title="" data-style="cursor:default" data-href="javascript:;" target="_blank"></a>
         </section>
         <section id="bd_search">
-            <form action="/search.do" method="post" >
+            <form action="<%=basePath%>search.do" method="post">
                 <div style="margin-right: 2px; float: left;height:36px;">
                     <select id="type" name="type" class="type_index">
                         <c:if test="${code!=null}">
-                            <c:forEach items="${code}" var="code" >
+                            <c:forEach items="${code}" var="code">
                                 <option value="${code.key}">${code.value}</option>
                             </c:forEach>
                         </c:if>
@@ -56,7 +66,8 @@
                     </div>
 
                     <div id="suggest-align" class="skin-search-input">
-                        <input type="text" name="key" class="placeholder" id="input" suggestwidth="528px" autocomplete="off">
+                        <input type="text" name="key" class="placeholder" id="input" suggestwidth="528px"
+                               autocomplete="off">
                     </div>
                     <input type="submit" id="search-button" class="skin-search-button" value="搜一下">
                 </fieldset>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="HDSE:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/HDSE_war</output-path>
+    <root id="archive" name="HDSE_war.war">
+      <element id="artifact" artifact-name="HDSE:war exploded" />
+    </root>
+  </artifact>
+</component>

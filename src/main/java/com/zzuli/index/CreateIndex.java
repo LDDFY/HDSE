@@ -13,6 +13,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.bson.BSONObject;
+import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -21,6 +22,7 @@ import java.util.Map;
 /**
  * @author LDDFY
  */
+@Repository
 public class CreateIndex {
 
     /**
@@ -64,18 +66,23 @@ public class CreateIndex {
      *
      * @return
      */
-    public static boolean IndexRun() {
+    public boolean IndexRun() {
         Configuration conf = new Configuration();
         //设置数据输入为mongoDB数据库
         MongoConfigUtil.setInputURI(conf, Constants.MONGO_HADOOP_INPUTURI);
-        //设置HDFS地址
-        conf.set("fs.defaultFS", Constants.FS_DEFAULTFS);
-        //指定MapReduce程序运行框架
-        conf.set("mapreduce.framework.name", Constants.MAPREDUCE_FRAMEWORK_NAME);
-        //设置避免windows下提交报错
-        conf.set("mapreduce.app-submission.cross-platform", Constants.MAPREDUCE_APP_SUBMISSION_CROSS_PLATFORM);
-        //设置ResourseManager地址
-        conf.set("yarn.resourcemanager.address", Constants.YARN_RESOURCEMANAGER_ADDRESS);
+        System.setProperty("hadoop.home.dir", Constants.HADOOP_HOME_DIR);
+        conf.addResource(new Path("core-site.xml"));
+        conf.addResource(new Path("hdfs-site.xml"));
+        conf.addResource(new Path("yarn-site.xml"));
+
+//        //设置HDFS地址
+//        conf.set("fs.defaultFS", Constants.FS_DEFAULTFS);
+//        //指定MapReduce程序运行框架
+//        conf.set("mapreduce.framework.name", Constants.MAPREDUCE_FRAMEWORK_NAME);
+//        //设置避免windows下提交报错
+//        conf.set("mapreduce.app-submission.cross-platform", Constants.MAPREDUCE_APP_SUBMISSION_CROSS_PLATFORM);
+//        //设置ResourseManager地址
+//        conf.set("yarn.resourcemanager.address", Constants.YARN_RESOURCEMANAGER_ADDRESS);
         try {
             //设置程序结果输出路径
             Path outPath = new Path(Constants.INDEX_DRI);
@@ -115,7 +122,7 @@ public class CreateIndex {
     }
 
     public static void main(String[] args) {
-        boolean flag = IndexRun();
+        boolean flag = new CreateIndex().IndexRun();
         System.out.println("-------------------------------->" + flag);
     }
 

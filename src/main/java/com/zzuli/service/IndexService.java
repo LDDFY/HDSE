@@ -6,4 +6,5 @@ package com.zzuli.service;
  */
 public interface IndexService {
 
+    public boolean createIndex();
 }

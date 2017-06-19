@@ -5,6 +5,7 @@ import com.zzuli.search.Pager;
 import com.zzuli.search.SearchEntity;
 import com.zzuli.service.SearchService;
 import com.zzuli.vo.WeiBo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,10 +39,15 @@ public class SearchController {
     public ModelAndView searchPage(HttpServletRequest request, SearchEntity entity, Pager pager) {
         ModelAndView mv = new ModelAndView("search/searchPage");
         List<Map<String, String>> searchCode = getSearchCode();
-        pager =searchService.getPageInfo(entity,pager);
-        mv.addObject("pager", pager);
-        mv.addObject("code", searchCode);
-        mv.addObject("searchCode", entity);
+        String content=entity.getKey();
+        if(StringUtils.isBlank(content)){
+            mv.setViewName("redirect:index.do");
+        }else{
+            pager =searchService.getPageInfo(entity,pager);
+            mv.addObject("pager", pager);
+            mv.addObject("code", searchCode);
+            mv.addObject("searchCode", entity);
+        }
         return mv;
     }
 
@@ -49,7 +55,6 @@ public class SearchController {
     public ModelAndView detial(String id){
         ModelAndView mv = new ModelAndView("search/detial");
         WeiBo weiBo=searchService.getEntityById("id",id,"data");
-        System.out.println(weiBo.toString());
         mv.addObject("data",weiBo);
         return mv;
     }

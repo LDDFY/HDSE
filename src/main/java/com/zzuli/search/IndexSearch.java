@@ -1,6 +1,7 @@
 package com.zzuli.search;
 
 import com.zzuli.Constants;
+import com.zzuli.cache.MemoryCached;
 import com.zzuli.vo.WeiBo;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -40,13 +41,14 @@ public class IndexSearch {
             System.setProperty("hadoop.home.dir", Constants.HADOOP_HOME_DIR);
             Configuration conf = new Configuration();
             //设置HDFS地址
-            conf.set("fs.defaultFS", Constants.FS_DEFAULTFS);
+            conf.addResource(new Path("core-site.xml"));
+            conf.addResource(new Path("hdfs-site.xml"));
             FileSystem fs = FileSystem.get(conf);
             //创建FsDirectory对象
             FsDirectory dir = new FsDirectory(fs, new Path(Constants.INDEX_DRI), false, conf);
             //打开文件索引位置
             reader = IndexReader.open(dir);
-            //生命搜索位置
+            //声明搜索位置
             searcher = new IndexSearcher(reader);
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,7 +69,19 @@ public class IndexSearch {
         if (currentPage == 0) {
             //第一次查询时不存在页码默认为第一页
             currentPage = 1;
+            pager.setCurrentPage(currentPage);
         }
+
+        System.out.println("------------------>开始查询时间："+ System.currentTimeMillis());
+        //查询缓存中的数据内容
+        Pager<WeiBo> datas = MemoryCached.getWeiBoCache(entity, pager);
+        if (datas != null) {
+            System.out.println("---------------cached");
+            System.out.println("------------------>结束查询时间："+ System.currentTimeMillis());
+            return datas;
+        }
+
+
         //设置每页显示记录的条数
         int pageSize = Constants.PAGE_SIZE;
         //用来保存查询记录
@@ -106,7 +120,13 @@ public class IndexSearch {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new Pager<WeiBo>(currentPage, pageSize, totalRecord, weiBos);
+
+        datas=new Pager<WeiBo>(currentPage, pageSize, totalRecord, weiBos);
+        //数据不存在则添加到缓存中去
+        MemoryCached.putWeiBoCache(entity,datas);
+        System.out.println("---------------add cached");
+        System.out.println("------------------>结束查询时间："+ System.currentTimeMillis());
+        return datas;
     }
 
 
